@@ -1,0 +1,1 @@
+/usr/bin/g++  -g   CMakeFiles/32_2_movie_data_analysis.dir/main.cpp.o  -o 32_2_movie_data_analysis 

@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/kate/skillbox/32_2_movie_data_analysis/build",
+  "command": "/usr/bin/g++   -I/home/kate/skillbox/32_2_movie_data_analysis/nlohmann_json/include  -g   -o CMakeFiles/32_2_movie_data_analysis.dir/main.cpp.o -c /home/kate/skillbox/32_2_movie_data_analysis/main.cpp",
+  "file": "/home/kate/skillbox/32_2_movie_data_analysis/main.cpp"
+}
+]
