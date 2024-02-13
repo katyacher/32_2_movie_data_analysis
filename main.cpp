@@ -7,12 +7,10 @@
 int main(int, char**){
     std::cout << "Hello, from 32_2_movie_data_analysis!\n";
 
-    std::ifstream file_in("films.json");
+    std::ifstream file("films.json");
     nlohmann::json films; 
-    file_in >> films;
-    file_in.close();
-
-
+    file >> films;
+    file.close();
 
     std::string name;
     std::cout << "Enter actors name: ";
