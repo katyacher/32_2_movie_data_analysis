@@ -1,27 +1,28 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <fstream>
 #include "nlohmann/json.hpp"
 
 int main(int, char**){
     std::cout << "Hello, from 32_2_movie_data_analysis!\n";
 
-    std::ofstream file("films.json");
+    std::ofstream file_out("films.json");
 
     nlohmann::json dict = {
         {"Amelie", {
             {"country", "France"},
             {"date", "25 April 2001"},
             {"studio", "Claudie Ossard Productions"},
-            {"story_by","Guillaume Laurant,Jean-Pierre Jeunet"},
+            {"story_by","Guillaume Laurant, Jean-Pierre Jeunet"},
             {"director","Jean-Pierre Jeunet"},
             {"producer","Jean-Marc Deschamps,Claudie Ossard"},
-            {"actros", {
-                {"Audrey Tautou","Amélie Poulain"},
+            {"actors", {
+                {"Audrey Tautou","Amelie Poulain"},
                 {"Mathieu Kassovitz","Nino Quincampoix"},
-                {"André Dussollier","The Narrator"},
-                {"Rufus", "Raphaël Poulain, Amélie's father"},
-                {"Lorella Cravotta" ,"Amandine Poulain, Amélie's mother"},
+                {"Andre Dussollier","The Narrator"},
+                {"Rufus", "Raphael Poulain, Amelie's father"},
+                {"Lorella Cravotta" ,"Amandine Poulain, Amelie's mother"},
                 {"Jamel Debbouze", "Lucien"}}
             }}
         },
@@ -32,7 +33,7 @@ int main(int, char**){
             {"story_by","Quentin Tarantino"},
             {"director","Quentin Tarantino"},
             {"producer","Lawrence Bender"},
-            {"actros", {
+            {"actors", {
                 {"John Travolta","Vincent Vega"},
                 {"Samuel L. Jackson","Jules Winnfield"},
                 {"Ving Rhames", "Marsellus Wallace"},
@@ -54,7 +55,7 @@ int main(int, char**){
             {"story_by","Georgiy Daneliya"},
             {"director","Aleksandr Sery"},
             {"producer",""},
-            {"actros", {
+            {"actors", {
                 {"Yevgeny Leonov","Yevgeny Ivanovich Troshkin, Aleksandr Aleksandrovich 'Docent' Beliy"},
                 {"Georgy Vitsin","Gavrila Petrovich 'Sad Sack' Sheremetyev"},
                 {"Savely Kramarov", "Fyodor Petrovich 'Crosseyes' Yermakov"},
@@ -69,7 +70,7 @@ int main(int, char**){
             {"story_by","Kir Bulychov"},
             {"director","Pavel Arsenov"},
             {"producer",""},
-            {"actros", {
+            {"actors", {
                 {"Natalya Guseva","Alisa Seleznyova"},
                 {"Aleksei Fomkin","Kolya Gerasimov"},
                 {"Maryana Ionesyan", "Yulya Gribkova"},
@@ -80,23 +81,60 @@ int main(int, char**){
                 }
             }
         }},
-        {"Knockin' on Heaven's Door",{
-            {"country", "Germany"},
-            {"date", "20 February 1997"},
-            {"studio", "Mr. Brown Entertainment"},
-            {"story_by","Thomas Jahn"},
-            {"director","Thomas Jahn"},
-            {"producer","Til Schweiger"},
-            {"actros", {
-                {"Til Schweiger","Martin Brest"},
-                {"Jan Josef Liefers","Rudi Wurlitzer"},
-                {"Thierry Van Werveke", "Henk"},
-                {"Moritz Bleibtreu","Abdul"},
-                {"Huub Stapel"," Frankie 'Boy' Beluga"}  
+        {"Prisoner of the Caucasus",{
+            {"country", "Soviet Union"},
+            {"date", "1 April 1967"},
+            {"studio", "Mosfilm"},
+            {"story_by","Yakov Kostyukovsky, Leonid Gaidai"},
+            {"director","Leonid Gaidai"},
+            {"producer",""},
+            {"actors", {
+                {"Aleksandr Demyanenko","Shurik"},
+                {"Natalya Varley","Nina"},
+                {"Vladimir Etush", "Saakhov"},
+                {"Yuri Nikulin","Fool"},
+                {"Georgy Vitsin","Coward"},
+                {"Yevgeny Morgunov", "Pro"}  
                 }
             }
         }}
     };
 
-    file << dict;
+    file_out << std::setw(4) << dict << std::endl;
+
+    file_out.close();
+
+    std::ifstream file_in("films.json");
+    nlohmann::json films; 
+    file_in >> films;
+    file_in.close();
+
+
+
+    std::string name;
+    std::cout << "Enter actors name: ";
+    std::getline(std::cin, name);
+
+    std::vector<std::string> results;
+
+    for(auto it = films.begin(); it != films.end(); ++it){
+
+        auto actors_it = it->find("actors");
+
+        if(actors_it != it->end()){
+            auto name_it = actors_it->find(name);
+            if(name_it != actors_it->end()){
+                std::string out = "Film - " +  it.key()
+                    + ", role - " + nlohmann::to_string(name_it.value());
+                results.push_back(out);
+            }     
+        }
+    }
+    
+    if(results.size() > 0){
+        for(auto &result : results)
+            std::cout<< result << std::endl;
+    }else{
+        std::cout << "Sorry, no such actor has been found.";
+    }
 }
